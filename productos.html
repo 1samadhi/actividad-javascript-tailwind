@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Metadatos básicos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - TechStore</title>
+    
+    <!-- Tailwind CSS desde CDN para estilos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Barra de navegación principal -->
+    <nav class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo/Nombre de la tienda -->
+            <a href="index.html" class="text-2xl font-bold">TechStore</a>
+            <!-- Menú de navegación -->
+            <div class="space-x-4">
+                <a href="index.html" class="hover:text-blue-200">Inicio</a>
+                <a href="productos.html" class="hover:text-blue-200">Productos</a>
+                <a href="contacto.html" class="hover:text-blue-200">Contacto</a>
+            </div>
+            <!-- Carrito de Compras -->
+            <div class="relative">
+                <button onclick="document.getElementById('carrito').classList.toggle('hidden')" 
+                        class="text-gray-600 hover:text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span id="carrito-contador" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección de filtros y búsqueda -->
+    <div class="container mx-auto py-8">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+            <!-- Campo de búsqueda -->
+            <div class="mb-4 md:mb-0">
+                <input type="text" id="busqueda" placeholder="Buscar productos..." 
+                    class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <!-- Filtros y ordenamiento -->
+            <div class="flex space-x-4">
+                <select id="categoria" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Todas las categorías</option>
+                    <option value="laptops">Laptops</option>
+                    <option value="smartphones">Smartphones</option>
+                    <option value="tablets">Tablets</option>
+                    <option value="accesorios">Accesorios</option>
+                </select>
+                <select id="ordenar" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="precio-asc">Precio: Menor a Mayor</option>
+                    <option value="precio-desc">Precio: Mayor a Menor</option>
+                    <option value="nombre-asc">Nombre: A-Z</option>
+                    <option value="nombre-desc">Nombre: Z-A</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Contenedor de productos -->
+        <div id="productos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Los productos se cargarán dinámicamente con JavaScript -->
+        </div>
+    </div>
+
+    <!-- Carrito de compras flotante -->
+    <div id="carrito" class="fixed bottom-4 right-4 bg-white p-4 rounded-lg shadow-lg hidden">
+        <h3 class="text-xl font-bold mb-2">Carrito de Compras</h3>
+        <div id="carrito-items" class="mb-2"></div>
+        <p class="font-bold">Total: $<span id="carrito-total">0.00</span></p>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 TechStore. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts de JavaScript -->
+    <script>
+        /**
+         * Array que almacena todos los productos disponibles en la tienda
+         * Cada producto es un objeto con propiedades:
+         * - nombre: string
+         * - precio: number (en CLP)
+         * - categoria: string
+         * - imagen: string (URL de la imagen)
+         */
+        const productos = [
+            {
+                id: 1,
+                nombre: "Laptop Pro X1",
+                precio: 899990,
+                categoria: "laptops",
+                imagen: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60",
+                descripcion: "Laptop de última generación con procesador i7"
+            },
+            {
+                id: 2,
+                nombre: "Smartphone Ultra",
+                precio: 699990,
+                categoria: "smartphones",
+                imagen: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=60",
+                descripcion: "Smartphone con cámara de 108MP"
+            },
+            {
+                id: 3,
+                nombre: "Tablet Pro",
+                precio: 599990,
+                categoria: "tablets",
+                imagen: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&auto=format&fit=crop&q=60",
+                descripcion: "Tablet con pantalla OLED de 12.9\""
+            },
+            {
+                id: 4,
+                nombre: "Laptop Gaming",
+                precio: 1299990,
+                categoria: "laptops",
+                imagen: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=500&auto=format&fit=crop&q=60",
+                descripcion: "Laptop gaming con RTX 3080"
+            },
+            {
+                id: 5,
+                nombre: "Smartphone Lite",
+                precio: 399990,
+                categoria: "smartphones",
+                imagen: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500&auto=format&fit=crop&q=60",
+                descripcion: "Smartphone económico con buen rendimiento"
+            },
+            {
+                id: 6,
+                nombre: "Tablet Mini",
+                precio: 299990,
+                categoria: "tablets",
+                imagen: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                descripcion: "Tablet compacta de 8 pulgadas"
+            },
+            {
+                id: 7,
+                nombre: "Auriculares Pro",
+                precio: 149990,
+                categoria: "accesorios",
+                imagen: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60",
+                descripcion: "Auriculares con cancelación de ruido"
+            },
+            {
+                id: 8,
+                nombre: "Teclado Mecánico",
+                precio: 99990,
+                categoria: "accesorios",
+                imagen: "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=500&auto=format&fit=crop&q=60",
+                descripcion: "Teclado mecánico RGB"
+            }
+        ];
+
+        /**
+         * Array que almacena los productos agregados al carrito
+         * Cada producto es un objeto con {nombre, precio}
+         */
+        let carrito = [];
+
+        /**
+         * Renderiza la lista de productos en la página
+         * Esta función:
+         * 1. Obtiene el contenedor de productos
+         * 2. Genera el HTML para cada producto
+         * 3. Incluye botón para agregar al carrito
+         * 
+         * Se ejecuta al cargar la página y después de aplicar filtros
+         */
+        function mostrarProductos(productosAMostrar = productos) {
+            const contenedor = document.getElementById('productos-container');
+            contenedor.innerHTML = productosAMostrar.map(producto => `
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="${producto.imagen}" alt="${producto.nombre}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold">${producto.nombre}</h3>
+                        <p class="text-gray-600">$${producto.precio.toLocaleString('es-CL')}</p>
+                        <button onclick="agregarAlCarrito('${producto.nombre}', ${producto.precio})" 
+                                class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /**
+         * Filtra y ordena los productos según los criterios seleccionados
+         * Esta función:
+         * 1. Obtiene los valores de los filtros (categoría y orden)
+         * 2. Filtra los productos por categoría si se seleccionó una
+         * 3. Ordena los productos por precio según el criterio seleccionado
+         * 4. Actualiza la visualización de los productos
+         * 
+         * Se ejecuta cuando el usuario cambia los filtros
+         */
+        function filtrarProductos() {
+            const busqueda = document.getElementById('busqueda').value.toLowerCase();
+            const categoria = document.getElementById('categoria').value;
+            const ordenar = document.getElementById('ordenar').value;
+
+            // Filtrar productos por búsqueda y categoría
+            let productosFiltrados = productos.filter(producto => {
+                const coincideBusqueda = producto.nombre.toLowerCase().includes(busqueda) ||
+                                       producto.descripcion.toLowerCase().includes(busqueda);
+                const coincideCategoria = !categoria || producto.categoria === categoria;
+                return coincideBusqueda && coincideCategoria;
+            });
+
+            // Ordenar productos según el criterio seleccionado
+            productosFiltrados.sort((a, b) => {
+                switch(ordenar) {
+                    case 'precio-asc':
+                        return a.precio - b.precio;
+                    case 'precio-desc':
+                        return b.precio - a.precio;
+                    case 'nombre-asc':
+                        return a.nombre.localeCompare(b.nombre);
+                    case 'nombre-desc':
+                        return b.nombre.localeCompare(a.nombre);
+                    default:
+                        return 0;
+                }
+            });
+
+            mostrarProductos(productosFiltrados);
+        }
+
+        // Event listeners para los filtros
+        document.getElementById('busqueda').addEventListener('input', filtrarProductos);
+        document.getElementById('categoria').addEventListener('change', filtrarProductos);
+        document.getElementById('ordenar').addEventListener('change', filtrarProductos);
+
+        /**
+         * Actualiza el contador de items en el ícono del carrito
+         * Esta función se ejecuta cada vez que se modifica el carrito
+         */
+        function actualizarContadorCarrito() {
+            const contador = document.getElementById('carrito-contador');
+            const totalItems = carrito.reduce((sum, item) => sum + (item.cantidad || 1), 0);
+            
+            if (totalItems > 0) {
+                contador.textContent = totalItems;
+                contador.classList.remove('hidden');
+            } else {
+                contador.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Vacía completamente el carrito de compras
+         * Esta función se ejecuta cuando el usuario hace clic en "Vaciar Carrito"
+         */
+        function vaciarCarrito() {
+            if (carrito.length > 0) {
+                carrito = [];
+                actualizarCarrito();
+                mostrarNotificacion('Carrito vaciado');
+            }
+        }
+
+        /**
+         * Actualiza la cantidad de un producto en el carrito
+         * Esta función se ejecuta cuando el usuario cambia la cantidad
+         * 
+         * @param {number} index - Índice del producto en el carrito
+         * @param {number} nuevaCantidad - Nueva cantidad del producto
+         */
+        function actualizarCantidad(index, nuevaCantidad) {
+            if (nuevaCantidad > 0) {
+                carrito[index].cantidad = nuevaCantidad;
+                actualizarCarrito();
+            } else {
+                eliminarDelCarrito(index);
+            }
+        }
+
+        /**
+         * Actualiza la visualización del carrito de compras
+         * Esta función:
+         * 1. Muestra/oculta el carrito según si hay productos
+         * 2. Actualiza la lista de productos en el carrito
+         * 3. Calcula y muestra el total
+         * 
+         * Se ejecuta cada vez que se agrega o elimina un producto
+         */
+        function actualizarCarrito() {
+            // Obtiene referencias a los elementos del DOM
+            const carritoItems = document.getElementById('carrito-items');
+            const carritoTotal = document.getElementById('carrito-total');
+            const carritoDiv = document.getElementById('carrito');
+
+            if (carrito.length > 0) {
+                // Si hay productos, muestra el carrito
+                carritoDiv.classList.remove('hidden');
+                
+                // Genera el HTML para cada producto en el carrito
+                carritoItems.innerHTML = carrito.map((item, index) => 
+                    `<div class="flex justify-between items-center mb-2 p-2 hover:bg-gray-100 rounded">
+                        <div class="flex-1">
+                            <span class="font-medium">${item.nombre}</span>
+                            <span class="block text-sm text-gray-600">$${item.precio.toLocaleString('es-CL')}</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="flex items-center border rounded">
+                                <button onclick="actualizarCantidad(${index}, ${(item.cantidad || 1) - 1})" 
+                                        class="px-2 py-1 text-gray-600 hover:bg-gray-200">-</button>
+                                <span class="px-2">${item.cantidad || 1}</span>
+                                <button onclick="actualizarCantidad(${index}, ${(item.cantidad || 1) + 1})" 
+                                        class="px-2 py-1 text-gray-600 hover:bg-gray-200">+</button>
+                            </div>
+                            <button onclick="eliminarDelCarrito(${index})" 
+                                    class="text-red-500 hover:text-red-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>`
+                ).join('');
+                
+                // Calcula el total sumando los precios de todos los productos
+                const total = carrito.reduce((sum, item) => sum + (item.precio * (item.cantidad || 1)), 0);
+                // Muestra el total formateado en pesos chilenos
+                carritoTotal.textContent = total.toLocaleString('es-CL');
+
+                // Agrega el botón de vaciar carrito
+                carritoItems.innerHTML += `
+                    <div class="mt-4 pt-4 border-t">
+                        <button onclick="vaciarCarrito()" 
+                                class="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                            Vaciar Carrito
+                        </button>
+                    </div>`;
+            } else {
+                // Si no hay productos, oculta el carrito
+                carritoDiv.classList.add('hidden');
+            }
+
+            // Actualiza el contador de items
+            actualizarContadorCarrito();
+        }
+
+        /**
+         * Agrega un producto al carrito de compras
+         * Esta función se ejecuta cuando el usuario hace clic en "Agregar al Carrito"
+         * 
+         * @param {string} nombre - Nombre del producto a agregar
+         * @param {number} precio - Precio del producto en pesos chilenos (CLP)
+         * 
+         * Ejemplo de uso:
+         * agregarAlCarrito('Laptop Pro X1', 899990)
+         */
+        function agregarAlCarrito(nombre, precio) {
+            // Verifica si el producto ya está en el carrito
+            const productoExistente = carrito.find(item => item.nombre === nombre);
+            
+            if (productoExistente) {
+                // Si existe, aumenta la cantidad
+                productoExistente.cantidad = (productoExistente.cantidad || 1) + 1;
+                mostrarNotificacion(`Cantidad de ${nombre} actualizada en el carrito`);
+            } else {
+                // Si no existe, agrega el producto
+                carrito.push({ nombre, precio, cantidad: 1 });
+                mostrarNotificacion(`${nombre} agregado al carrito`);
+            }
+            
+            // Actualiza la visualización del carrito
+            actualizarCarrito();
+        }
+
+        /**
+         * Elimina un producto del carrito de compras
+         * Esta función se ejecuta cuando el usuario hace clic en el botón "Eliminar"
+         * 
+         * @param {number} index - Índice del producto a eliminar en el array del carrito
+         * 
+         * Ejemplo de uso:
+         * eliminarDelCarrito(0) // Elimina el primer producto del carrito
+         */
+        function eliminarDelCarrito(index) {
+            // Obtiene el nombre del producto antes de eliminarlo para la notificación
+            const productoEliminado = carrito[index].nombre;
+            // Elimina el producto del array del carrito
+            carrito.splice(index, 1);
+            // Actualiza la visualización del carrito
+            actualizarCarrito();
+            // Muestra una notificación de confirmación
+            mostrarNotificacion(`${productoEliminado} eliminado del carrito`);
+        }
+
+        /**
+         * Muestra una notificación temporal en la pantalla
+         * La notificación aparece en la esquina superior derecha
+         * y desaparece automáticamente después de 3 segundos
+         * 
+         * @param {string} mensaje - El mensaje a mostrar en la notificación
+         * 
+         * Ejemplo de uso:
+         * mostrarNotificacion('Producto agregado al carrito')
+         */
+        function mostrarNotificacion(mensaje) {
+            // Crea un nuevo elemento div para la notificación
+            const notificacion = document.createElement('div');
+            // Aplica estilos usando clases de Tailwind
+            notificacion.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg';
+            // Establece el mensaje
+            notificacion.textContent = mensaje;
+            // Agrega la notificación al documento
+            document.body.appendChild(notificacion);
+
+            // Programa la eliminación de la notificación después de 3 segundos
+            setTimeout(() => {
+                notificacion.remove();
+            }, 3000);
+        }
+
+        // Inicializa la página mostrando todos los productos
+        mostrarProductos();
+    </script>
+</body>
+</html> 

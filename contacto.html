@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Metadatos básicos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - TechStore</title>
+    
+    <!-- Tailwind CSS desde CDN para estilos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Barra de navegación principal -->
+    <nav class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo/Nombre de la tienda -->
+            <a href="index.html" class="text-2xl font-bold">TechStore</a>
+            <!-- Menú de navegación -->
+            <div class="space-x-4">
+                <a href="index.html" class="hover:text-blue-200">Inicio</a>
+                <a href="productos.html" class="hover:text-blue-200">Productos</a>
+                <a href="contacto.html" class="hover:text-blue-200">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Formulario de Contacto -->
+    <div class="container mx-auto py-12">
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+            <h2 class="text-3xl font-bold text-center mb-8">Contáctanos</h2>
+            
+            <!-- Formulario con validación -->
+            <form id="contactoForm" class="space-y-6" novalidate>
+                <!-- Campo de nombre -->
+                <div>
+                    <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre completo</label>
+                    <input type="text" id="nombre" name="nombre" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <p class="text-red-500 text-sm mt-1 hidden" id="nombreError"></p>
+                </div>
+
+                <!-- Campo de email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+                    <input type="email" id="email" name="email" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <p class="text-red-500 text-sm mt-1 hidden" id="emailError"></p>
+                </div>
+
+                <!-- Campo de teléfono -->
+                <div>
+                    <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+                    <input type="tel" id="telefono" name="telefono" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <p class="text-red-500 text-sm mt-1 hidden" id="telefonoError"></p>
+                </div>
+
+                <!-- Selector de asunto -->
+                <div>
+                    <label for="asunto" class="block text-sm font-medium text-gray-700">Asunto</label>
+                    <select id="asunto" name="asunto" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Seleccione un asunto</option>
+                        <option value="consulta">Consulta general</option>
+                        <option value="soporte">Soporte técnico</option>
+                        <option value="ventas">Información de ventas</option>
+                        <option value="devolucion">Devolución o reembolso</option>
+                    </select>
+                    <p class="text-red-500 text-sm mt-1 hidden" id="asuntoError"></p>
+                </div>
+
+                <!-- Campo de mensaje -->
+                <div>
+                    <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje</label>
+                    <textarea id="mensaje" name="mensaje" rows="4" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    <p class="text-red-500 text-sm mt-1 hidden" id="mensajeError"></p>
+                </div>
+
+                <!-- Botón de envío -->
+                <div>
+                    <button type="submit"
+                        class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Enviar mensaje
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 TechStore. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts de JavaScript -->
+    <script>
+        /**
+         * Valida el formulario de contacto antes de enviarlo
+         * Esta función:
+         * 1. Obtiene los valores de todos los campos
+         * 2. Valida que los campos requeridos no estén vacíos
+         * 3. Valida el formato del email
+         * 4. Valida que el mensaje tenga al menos 10 caracteres
+         * 
+         * @returns {boolean} - true si el formulario es válido, false si hay errores
+         * 
+         * Ejemplo de uso:
+         * if (validarFormulario()) {
+         *     // Enviar formulario
+         * }
+         */
+        function validarFormulario() {
+            // Obtiene referencias a los campos del formulario
+            const nombre = document.getElementById('nombre').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mensaje = document.getElementById('mensaje').value.trim();
+            
+            // Valida que el nombre no esté vacío
+            if (nombre === '') {
+                mostrarError('nombre', 'Por favor ingrese su nombre');
+                return false;
+            }
+            
+            // Valida el formato del email usando una expresión regular
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                mostrarError('email', 'Por favor ingrese un email válido');
+                return false;
+            }
+            
+            // Valida que el mensaje tenga al menos 10 caracteres
+            if (mensaje.length < 10) {
+                mostrarError('mensaje', 'El mensaje debe tener al menos 10 caracteres');
+                return false;
+            }
+            
+            // Si todas las validaciones pasan, muestra mensaje de éxito
+            mostrarNotificacionExito();
+            return true;
+        }
+
+        /**
+         * Muestra un mensaje de error para un campo específico
+         * Esta función:
+         * 1. Obtiene el elemento del campo
+         * 2. Agrega una clase de error al campo
+         * 3. Muestra el mensaje de error debajo del campo
+         * 
+         * @param {string} campoId - ID del campo que tiene el error
+         * @param {string} mensaje - Mensaje de error a mostrar
+         * 
+         * Ejemplo de uso:
+         * mostrarError('email', 'Por favor ingrese un email válido')
+         */
+        function mostrarError(campoId, mensaje) {
+            // Obtiene el elemento del campo
+            const campo = document.getElementById(campoId);
+            // Agrega la clase de error al campo
+            campo.classList.add('border-red-500');
+            
+            // Crea o actualiza el elemento de mensaje de error
+            let errorDiv = document.getElementById(`${campoId}-error`);
+            if (!errorDiv) {
+                errorDiv = document.createElement('div');
+                errorDiv.id = `${campoId}-error`;
+                campo.parentNode.appendChild(errorDiv);
+            }
+            
+            // Establece el mensaje de error
+            errorDiv.textContent = mensaje;
+            errorDiv.className = 'text-red-500 text-sm mt-1';
+        }
+
+        /**
+         * Muestra una notificación de éxito cuando el formulario se envía correctamente
+         * Esta función:
+         * 1. Crea un elemento de notificación
+         * 2. Lo muestra en la pantalla
+         * 3. Lo elimina después de 3 segundos
+         * 
+         * Ejemplo de uso:
+         * mostrarNotificacionExito()
+         */
+        function mostrarNotificacionExito() {
+            // Crea un nuevo elemento div para la notificación
+            const notificacion = document.createElement('div');
+            // Aplica estilos usando clases de Tailwind
+            notificacion.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg';
+            // Establece el mensaje
+            notificacion.textContent = '¡Mensaje enviado con éxito!';
+            // Agrega la notificación al documento
+            document.body.appendChild(notificacion);
+
+            // Programa la eliminación de la notificación después de 3 segundos
+            setTimeout(() => {
+                notificacion.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html> 
