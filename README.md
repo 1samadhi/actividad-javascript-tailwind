@@ -21,6 +21,11 @@ Proyecto de tienda virtual desarrollado con JavaScript y Tailwind CSS.
 
 - [Sitio web en Vercel](https://actividad-java-script-tailwind-6oxyncn18.vercel.app)
 - [Repositorio en GitHub](https://github.com/1samadhi/actividad-javascript-tailwind)
+- [Sitio en GitHub Pages](URL_AQUI)
+
+## Autor
+
+Ismael Ignacio Oyarzún Montiel
 
 ## 🚀 Características
 
@@ -88,10 +93,6 @@ TechStore/
 ## 📱 Capturas de Pantalla
 
 [Agregar capturas de pantalla aquí]
-
-## 👨‍💻 Autor
-
-[Tu nombre]
 
 ## 📄 Licencia
 
