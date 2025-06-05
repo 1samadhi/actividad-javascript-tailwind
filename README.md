@@ -1,6 +1,26 @@
-# TechStore - Tienda de Tecnología
+# TechStore - Proyecto JavaScript + Tailwind CSS
 
-TechStore es una tienda virtual de productos tecnológicos desarrollada como proyecto personal utilizando HTML, JavaScript y Tailwind CSS.
+Proyecto de tienda virtual desarrollado con JavaScript y Tailwind CSS.
+
+## Características
+
+- Diseño responsive
+- Carrito de compras interactivo
+- Filtrado de productos
+- Formulario de contacto
+- Notificaciones en tiempo real
+
+## Tecnologías utilizadas
+
+- HTML5
+- JavaScript
+- Tailwind CSS
+- Vercel (Despliegue)
+
+## Enlaces
+
+- [Sitio web en Vercel](https://actividad-java-script-tailwind-6oxyncn18.vercel.app)
+- [Repositorio en GitHub](https://github.com/1samadhi/actividad-javascript-tailwind)
 
 ## 🚀 Características
 

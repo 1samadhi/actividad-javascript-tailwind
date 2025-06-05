@@ -13,26 +13,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
-    <!-- Barra de navegación principal -->
+    <!-- Barra de Navegación -->
     <nav class="bg-blue-600 text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo/Nombre de la tienda -->
             <a href="index.html" class="text-2xl font-bold">TechStore</a>
-            <!-- Menú de navegación -->
-            <div class="space-x-4">
+            <!-- Menú de navegación y carrito -->
+            <div class="flex items-center space-x-4">
                 <a href="index.html" class="hover:text-blue-200">Inicio</a>
                 <a href="productos.html" class="hover:text-blue-200">Productos</a>
                 <a href="contacto.html" class="hover:text-blue-200">Contacto</a>
-            </div>
-            <!-- Carrito de Compras -->
-            <div class="relative">
-                <button onclick="document.getElementById('carrito').classList.toggle('hidden')" 
-                        class="text-gray-600 hover:text-gray-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <span id="carrito-contador" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
-                </button>
+                <!-- Carrito de Compras -->
+                <div class="relative">
+                    <button onclick="document.getElementById('carrito').classList.toggle('hidden')" 
+                            class="text-white hover:text-blue-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span id="carrito-contador" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -332,12 +332,16 @@
                 // Muestra el total formateado en pesos chilenos
                 carritoTotal.textContent = total.toLocaleString('es-CL');
 
-                // Agrega el botón de vaciar carrito
+                // Agrega el botón de vaciar carrito y el botón de pagar
                 carritoItems.innerHTML += `
-                    <div class="mt-4 pt-4 border-t">
+                    <div class="mt-4 pt-4 border-t space-y-2">
                         <button onclick="vaciarCarrito()" 
                                 class="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
                             Vaciar Carrito
+                        </button>
+                        <button onclick="procesarPago()" 
+                                class="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                            Pagar
                         </button>
                     </div>`;
             } else {
@@ -421,6 +425,14 @@
             setTimeout(() => {
                 notificacion.remove();
             }, 3000);
+        }
+
+        /**
+         * Muestra una alerta cuando se intenta procesar el pago
+         * Esta función se ejecuta cuando el usuario hace clic en "Pagar"
+         */
+        function procesarPago() {
+            alert('Esta paginita aún no ha sido creada');
         }
 
         // Inicializa la página mostrando todos los productos
