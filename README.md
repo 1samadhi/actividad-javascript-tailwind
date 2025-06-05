@@ -1,3 +1,5 @@
+#ACTIVIDAD JS + TW POR 99 DECIMAS
+
 # TechStore - Tienda de Tecnología
 
 TechStore es una tienda virtual de productos tecnológicos desarrollada como proyecto personal utilizando HTML, JavaScript y Tailwind CSS.
